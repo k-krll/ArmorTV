@@ -1,0 +1,211 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ARMOR Banners Display</title>
+    <link rel="stylesheet" href="styles.css">
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700;900&display=swap" rel="stylesheet">
+</head>
+<body class="display-mode">
+    <!-- Прелоадер -->
+    <div class="preloader" id="preloader">
+        <div class="preloader-content">
+            <h2>Загрузка видео...</h2>
+            <div class="progress-bar-container">
+                <div class="progress-bar" id="progressBar"></div>
+            </div>
+            <p class="progress-text" id="progressText">0%</p>
+        </div>
+    </div>
+
+    <div class="controls">
+        <button id="rotateLeft" class="rotate-btn">↺</button>
+        <button id="rotateRight" class="rotate-btn">↻</button>
+        <button id="exitFullscreen" class="rotate-btn">✕</button>
+    </div>
+    <div class="banner-container">
+        <!-- Баннер 1 - Комбо -->
+        <div class="banner" id="banner1">
+            <div class="content">
+                <h2>ЗАЩИТИ ВСЁ И СРАЗУ</h2>
+                <div class="combo-block">
+                    <h1>КОМБО-ЗАЩИТА</h1>
+                    <p class="devices">iPhone + Apple Watch</p>
+                </div>
+                <div class="price-block">
+                    <p class="description">ЭКРАН ТЕЛЕФОНА<br>+ ЭКРАН ЧАСОВ</p>
+                    <p class="price">1680₽</p>
+                    <p class="discount">ВЫГОДА 40%</p>
+                </div>
+                <p class="footer">Премиальная защита из полиуретана</p>
+            </div>
+        </div>
+
+        <!-- Баннер 2 - Грани -->
+        <div class="banner" id="banner2">
+            <video id="bordersVideo" class="background-video" loop muted poster="BORDERS.png">
+                <source src="borders.mp4" type="video/mp4">
+            </video>
+            <div class="video-overlay"></div>
+            <div class="content">
+                <h2>НЕВОЗМОЖНОЕ ВОЗМОЖНО</h2>
+                <div class="edges-block">
+                    <h1>ЗАЩИТА<br>БОКОВЫХ ГРАНЕЙ</h1>
+                    <p class="device">
+                        <span>iPhone</span><span class="comma">, </span>
+                        <span>Samsung</span><span class="comma">, </span>
+                        <span>Xiaomi</span><span class="comma">, </span>
+                        <span>Huawei</span>
+                    </p>
+                </div>
+                <div class="price-block">
+                    <p class="price">1500₽</p>
+                </div>
+                <div class="features">
+                    <p>МАКСИМАЛЬНАЯ ЗАЩИТА</p>
+                    <p>ПРЕМИАЛЬНЫЙ ПОЛИУРЕТАН</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Баннер - Защита экрана -->
+        <div class="banner" id="bannerScreen">
+            <video id="screenVideo" class="background-video" loop muted poster="FRONT.png">
+                <source src="front.mp4" type="video/mp4">
+            </video>
+            <div class="video-overlay"></div>
+            <div class="content">
+                <h2>МАКСИМАЛЬНАЯ ПРОЗРАЧНОСТЬ</h2>
+                <div class="edges-block">
+                    <h1>ЗАЩИТА ЭКРАНА</h1>
+                    <p class="device">
+                        <span>iPhone</span><span class="comma">, </span>
+                        <span>Samsung</span><span class="comma">, </span>
+                        <span>Xiaomi</span><span class="comma">, </span>
+                        <span>Huawei</span>
+                    </p>
+                </div>
+                <div class="price-block">
+                    <p class="price">1800₽</p>
+                </div>
+                <div class="features">
+                    <p>ОЛЕОФОБНОЕ ПОКРЫТИЕ</p>
+                    <p>ИДЕАЛЬНАЯ ПРОЗРАЧНОСТЬ</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Баннер - Защита задней крышки -->
+        <div class="banner" id="bannerBack">
+            <video id="backVideo" class="background-video" loop muted poster="BACK.png">
+                <source src="back_and_borders.mp4" type="video/mp4">
+            </video>
+            <div class="video-overlay"></div>
+            <div class="content">
+                <h2>ПОЛНАЯ БЕЗОПАСНОСТЬ</h2>
+                <div class="edges-block">
+                    <h1>ЗАЩИТА<br>ЗАДНЕЙ КРЫШКИ</h1>
+                    <p class="device-note">с боковыми гранями</p>
+                    <p class="device">
+                        <span>iPhone</span>
+                        <span class="comma">, </span>
+                        <span>Samsung</span>
+                        <span class="comma">, </span>
+                        <span>Xiaomi</span>
+                        <span class="comma">, </span>
+                        <span>Huawei</span>
+                    </p>
+                </div>
+                <div class="price-block">
+                    <p class="price">2500₽</p>
+                </div>
+                <div class="features">
+                    <p>ЗАЩИТА ОТ ЦАРАПИН</p>
+                    <p>СОХРАНЕНИЕ ДИЗАЙНА</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Баннер 3 - Прайс-лист -->
+        <div class="banner" id="banner3">
+            <div class="content price-list">
+                <div class="logo">
+                    <h1>ARMOR</h1>
+                    <p class="subtitle">ЗАЩИТА СМАРТФОНА 360°</p>
+                </div>
+
+                <div class="services">
+                    <h2>БАЗОВЫЕ УСЛУГИ</h2>
+                    <div class="service-grid" id="serviceGrid">
+                        <div class="service-item">
+                            <div class="service-icon screen-icon"></div>
+                            <h3>Защита экрана</h3>
+                            <p class="material">Полиуретан 300 мкм</p>
+                            <p class="service-price">2100 ₽</p>
+                            <p class="material">Полиуретан 200 мкм</p>
+                            <p class="service-price">1500 ₽</p>
+                            <p class="service-note">Защита экрана с боковыми гранями</p>
+                        </div>
+                        
+                        <div class="service-item edges">
+                            <div class="service-icon edges-icon"></div>
+                            <h3>Защита боковых граней</h3>
+                            <p class="material">Полиуретан 300 мкм</p>
+                            <p class="service-price">1500 ₽</p>
+                            <p class="material">Полиуретан 200 мкм</p>
+                            <p class="service-price">1800 ₽</p>
+                        </div>
+                        
+                        <div class="service-item back">
+                            <div class="service-icon back-icon"></div>
+                            <h3>Защита задней крышки</h3>
+                            <p class="material">Полиуретан 300 мкм</p>
+                            <p class="service-price">2100 ₽</p>
+                        </div>
+
+                        <div class="service-item corpus hidden">
+                            <div class="service-icon back-icon"></div>
+                            <h3>Защита корпуса<span class="asterisk">*</span></h3>
+                            <p class="material">Полиуретан 300 мкм</p>
+                            <p class="service-price">2800 ₽</p>
+                            <p class="material">Полиуретан 200 мкм</p>
+                            <p class="service-price">2500 ₽</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="packages">
+                    <h2>КОМПЛЕКСНЫЕ РЕШЕНИЯ</h2>
+                    <div class="package-list">
+                        <div class="package-item">
+                            <div class="package-icon ultimate-icon"></div>
+                            <div class="package-info">
+                                <h3>ULTIMATE <span>(300 мкм)</span></h3>
+                                <p>Защита экрана + боковых граней + задней крышки</p>
+                            </div>
+                            <div class="package-price">
+                                <p class="price">4500 ₽</p>
+                                <p class="saving">(Экономия до 1200₽!)</p>
+                            </div>
+                        </div>
+
+                        <div class="package-item">
+                            <div class="package-icon protection-icon"></div>
+                            <div class="package-info">
+                                <h3>360° <span>(200 мкм)</span></h3>
+                                <p>Защита экрана + боковых граней + задней крышки</p>
+                            </div>
+                            <div class="package-price">
+                                <p class="price">3500 ₽</p>
+                                <p class="saving">(Экономия до 1100₽!)</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script src="display.js"></script>
+</body>
+</html> 

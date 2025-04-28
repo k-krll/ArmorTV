@@ -1,0 +1,721 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    background: #000;
+    color: #fff;
+    font-family: 'Roboto', sans-serif;
+    height: 100vh;
+    width: 100vw;
+    overflow: hidden;
+    font-size: 16px; /* Base font size */
+}
+
+/* Control Panel Styles */
+.control-mode {
+    overflow: auto;
+    display: flex;
+    justify-content: center;
+    align-items: flex-start;
+    padding: 2.5% 1.25%;
+}
+
+.control-panel {
+    background: #111;
+    padding: 1.875rem;
+    border-radius: 15px;
+    max-width: 600px;
+    width: 100%;
+}
+
+.control-panel h1 {
+    color: #D743DD;
+    font-size: 150%;
+    margin-bottom: 1.875rem;
+    text-align: center;
+}
+
+.control-panel h2 {
+    color: #E047A0;
+    font-size: 112.5%;
+    margin-bottom: 0.9375rem;
+}
+
+.banner-selection, .timing-settings {
+    margin-bottom: 1.875rem;
+}
+
+.banner-options, .timing-options {
+    display: flex;
+    flex-direction: column;
+    gap: 0.9375rem;
+}
+
+.banner-options label, .timing-options label {
+    display: flex;
+    align-items: center;
+    gap: 0.625rem;
+    font-size: 100%;
+}
+
+.timing-options label {
+    justify-content: space-between;
+}
+
+input[type="checkbox"] {
+    width: 1.25rem;
+    height: 1.25rem;
+    accent-color: #D743DD;
+}
+
+input[type="number"] {
+    background: #222;
+    border: 1px solid #D743DD;
+    color: white;
+    padding: 0.3125rem 0.625rem;
+    border-radius: 5px;
+    width: 5rem;
+    font-size: 100%;
+}
+
+.primary-btn {
+    background: #D743DD;
+    color: white;
+    border: none;
+    padding: 0.9375rem 1.875rem;
+    border-radius: 8px;
+    font-size: 112.5%;
+    font-weight: bold;
+    cursor: pointer;
+    width: 100%;
+    transition: background-color 0.3s;
+}
+
+.primary-btn:hover {
+    background: #E047A0;
+}
+
+/* Display Mode Styles */
+.display-mode .controls {
+    display: none;
+}
+
+/* Скрываем все кнопки управления на экране показа */
+.display-mode .rotate-btn {
+    display: none;
+}
+
+.banner-container {
+    width: 100vh;
+    height: 100vw;
+    transform: rotate(90deg) translateY(-100%);
+    transform-origin: top left;
+    position: absolute;
+    background: #000;
+    transition: transform 0.5s ease;
+}
+
+.banner-container.rotate-0 {
+    transform: rotate(0deg);
+    transform-origin: center;
+    width: 100vw;
+    height: 100vh;
+}
+
+.banner-container.rotate-90 {
+    transform: rotate(90deg) translateY(-100%);
+    transform-origin: top left;
+}
+
+.banner-container.rotate-180 {
+    transform: rotate(180deg) translate(-100%, -100%);
+    transform-origin: top left;
+}
+
+.banner-container.rotate-270 {
+    transform: rotate(270deg) translateX(-100%);
+    transform-origin: top left;
+}
+
+.background-video {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    z-index: 0;
+}
+
+.video-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.5); /* Черная подложка с 50% прозрачностью */
+    z-index: 0;
+}
+
+.banner {
+    width: 100%;
+    height: 100%;
+    position: absolute;
+    display: none;
+    padding: 2.5rem;
+    background: #000;
+    overflow: hidden;
+}
+
+.banner.active {
+    display: block;
+    animation: fadeIn 1s ease-in;
+}
+
+.content {
+    position: relative;
+    z-index: 1;
+    height: 100%;
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+}
+
+.content > *:first-child {
+    margin-top: 0;
+}
+
+.content > *:last-child:not(.footer) {
+    margin-bottom: 0;
+}
+
+/* Banner Text Styles with font size multiplier */
+h1 {
+    font-size: calc(300% * var(--font-multiplier));
+    font-weight: 900;
+    margin: 1.25rem 0;
+    color: #fff;
+}
+
+h2 {
+    font-size: calc(200% * var(--font-multiplier));
+    color: #D743DD;
+    margin-bottom: 1.25rem;
+}
+
+.price {
+    font-size: calc(350% * var(--font-multiplier));
+    font-weight: 900;
+    color: #D743DD;
+}
+
+.discount {
+    font-size: calc(175% * var(--font-multiplier));
+    color: #E047A0;
+    margin-top: 0.625rem;
+}
+
+.old-price {
+    font-size: 250%;
+    text-decoration: line-through;
+    color: #666;
+}
+
+.new-price {
+    font-size: 350%;
+    color: #D743DD;
+    font-weight: 900;
+}
+
+.features {
+    margin: 1.875rem 0;
+}
+
+.features ul {
+    list-style: none;
+}
+
+.features li {
+    font-size: 150%;
+    margin: 0.9375rem 0;
+    position: relative;
+    padding-left: 1.5625rem;
+}
+
+.features li:before {
+    content: "•";
+    color: #D743DD;
+    position: absolute;
+    left: 0;
+    font-size: 150%;
+}
+
+.features p {
+    font-size: calc(125% * var(--font-multiplier));
+    margin: 0.3125rem 0;
+    line-height: 1.1;
+}
+
+.footer {
+    position: absolute;
+    bottom: 1.25rem;
+    left: 0;
+    right: 0;
+    text-align: center;
+}
+
+.combo-block, .edges-block, .price-block {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    margin: 1.25rem 0;
+    position: relative;
+}
+
+.device, .devices {
+    width: 100%;
+    text-align: center;
+    margin: 0.9375rem 0;
+    font-size: calc(175% * var(--font-multiplier));
+    color: #E047A0;
+}
+
+.device span {
+    opacity: 0;
+    display: inline-block;
+    animation: fadeInWord 0.5s forwards;
+    font-size: 60%;
+    color: #fff;
+    margin-right: 4px;
+}
+
+/* Бренды */
+.device span:nth-child(1) { animation-delay: 0s; } /* iPhone */
+.device span:nth-child(3) { animation-delay: 1s; } /* Samsung */
+.device span:nth-child(5) { animation-delay: 2s; } /* Xiaomi */
+.device span:nth-child(7) { animation-delay: 3s; } /* Huawei */
+
+/* Запятые - появляются через 0.5с после соответствующего бренда */
+.device span.comma:nth-child(2) { animation-delay: 0.5s; } /* запятая после iPhone */
+.device span.comma:nth-child(4) { animation-delay: 1.5s; } /* запятая после Samsung */
+.device span.comma:nth-child(6) { animation-delay: 2.5s; } /* запятая после Xiaomi */
+
+.device span:last-child {
+    margin-right: 0;
+}
+
+@keyframes fadeInWord {
+    from {
+        opacity: 0;
+        transform: translateY(10px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.description {
+    font-size: calc(150% * var(--font-multiplier));
+    margin-bottom: 1.25rem;
+}
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+    }
+    to {
+        opacity: 1;
+    }
+}
+
+/* Price List Styles */
+.price-list {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    gap: 2.5rem;
+    padding: 2.5rem;
+    height: 100%;
+}
+
+.logo {
+    text-align: center;
+    margin-bottom: 1.25rem;
+}
+
+.logo h1 {
+    font-size: 350%;
+    margin: 0;
+}
+
+.subtitle {
+    font-size: 125%;
+    color: #fff;
+    margin-top: 0.625rem;
+}
+
+.services h2 {
+    font-size: 200%;
+    color: #fff;
+    margin-bottom: 1.875rem;
+    text-align: center;
+}
+
+.packages h2 {
+    font-size: 200%;
+    color: #D743DD;
+    margin-bottom: 1.875rem;
+    text-align: center;
+}
+
+.service-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 1.875rem;
+    margin: 0 auto;
+    max-width: 1200px;
+    align-items: center;
+    justify-content: center;
+}
+
+.service-item {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    height: 100%;
+}
+
+.service-item.merging {
+    opacity: 0;
+}
+
+.service-item.appearing {
+    opacity: 0;
+    animation: fadeIn 0.5s ease-in-out forwards;
+}
+
+.service-item.hidden {
+    display: none;
+}
+
+.service-item:first-child {
+    grid-column: 1;
+}
+
+.service-item h3 {
+    font-size: calc(150% * var(--font-multiplier));
+    color: #fff;
+    margin-bottom: 0.9375rem;
+    min-height: 2.4em;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    line-height: 1.2;
+    width: 100%;
+    word-wrap: break-word;
+}
+
+.service-grid.merged {
+    grid-template-columns: repeat(3, 1fr);
+}
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+    }
+    to {
+        opacity: 1;
+    }
+}
+
+.merge-button {
+    display: none;
+}
+
+.service-note {
+    color: #999;
+    font-size: 87.5%;
+    margin-top: 0.3125rem;
+}
+
+/* Asterisk style */
+.service-item h3 .asterisk {
+    color: #999;
+    font-size: 75%;
+    vertical-align: super;
+}
+
+.service-icon {
+    width: 3.75rem;
+    height: 3.75rem;
+    margin: 0 auto 1.25rem;
+    background: #666;
+    border-radius: 0.625rem;
+}
+
+.material {
+    font-size: calc(112.5% * var(--font-multiplier));
+    color: #999;
+    margin: 0.625rem 0;
+    height: 2.5em;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.service-price {
+    font-size: calc(175% * var(--font-multiplier));
+    color: #fff;
+    font-weight: bold;
+    margin: 0.3125rem 0 1.25rem;
+    height: 1.5em;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.package-list {
+    display: flex;
+    flex-direction: column;
+    gap: 1.875rem;
+    max-width: 1200px;
+    margin: 0 auto;
+}
+
+.package-item {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 1.875rem;
+    padding: 1.25rem;
+    background: rgba(215, 67, 221, 0.1);
+    border-radius: 0.9375rem;
+    min-height: 7.5rem;
+}
+
+.package-icon {
+    width: 3.75rem;
+    height: 3.75rem;
+    background: #D743DD;
+    border-radius: 0.625rem;
+    flex-shrink: 0;
+}
+
+.package-info {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    flex-grow: 1;
+}
+
+.package-info h3 {
+    font-size: calc(150% * var(--font-multiplier));
+    color: #fff;
+    margin-bottom: 0.625rem;
+    min-height: 1.2em; /* Минимальная высота для заголовка */
+    display: flex;
+    align-items: center;
+}
+
+.package-info h3 span {
+    color: #E047A0;
+    font-size: 87.5%;
+}
+
+.package-info p {
+    font-size: calc(112.5% * var(--font-multiplier));
+    color: #fff;
+    line-height: 1.4;
+}
+
+.package-price {
+    text-align: right;
+    min-width: 12.5rem;
+}
+
+.package-price .price {
+    font-size: calc(200% * var(--font-multiplier));
+    color: #D743DD;
+    font-weight: bold;
+    margin: 0;
+}
+
+.package-price .saving {
+    font-size: calc(100% * var(--font-multiplier));
+    color: #E047A0;
+    margin-top: 0.3125rem;
+}
+
+/* Service Icons */
+.screen-icon, .edges-icon, .back-icon,
+.ultimate-icon, .protection-icon, .back-edges-icon {
+    background-size: 60%;
+    background-position: center;
+    background-repeat: no-repeat;
+}
+
+/* Preloader Styles */
+.preloader {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    background: #000;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 9999;
+}
+
+.preloader-content {
+    text-align: center;
+    width: 80%;
+    max-width: 400px;
+}
+
+.preloader h2 {
+    color: #D743DD;
+    margin-bottom: 2rem;
+    font-size: 175%;
+}
+
+.progress-bar-container {
+    width: 100%;
+    height: 4px;
+    background: #333;
+    border-radius: 2px;
+    overflow: hidden;
+    margin: 1rem 0;
+}
+
+.progress-bar {
+    width: 0%;
+    height: 100%;
+    background: #D743DD;
+    transition: width 0.3s ease-out;
+}
+
+.progress-text {
+    color: #fff;
+    font-size: 112.5%;
+}
+
+.preloader.hidden {
+    opacity: 0;
+    visibility: hidden;
+    transition: opacity 0.5s ease-out, visibility 0.5s;
+}
+
+.device-note {
+    font-size: 125%;
+    color: #E047A0;
+    margin: -0.5rem 0 0.5rem;
+    opacity: 0.8;
+}
+
+/* Только кнопка выхода остается видимой */
+.display-mode #exitFullscreen {
+    display: flex;
+}
+
+/* Стили для текста "Невозможное возможно" */
+.edges-block {
+    position: relative;
+    width: 100%;
+}
+
+.edges-block h2 {
+    position: absolute;
+    right: 0;
+    top: -5.75rem; /* Поднимаем выше с -3.75rem на -5.75rem */
+    text-align: right;
+    padding-right: 2.5rem;
+}
+
+/* Стили для основного контента баннера */
+.edges-block h1 {
+    margin-top: 1.25rem;
+}
+
+/* Обновляем стили для всех features в видео-баннерах */
+.banner .features {
+    position: absolute;
+    bottom: 3.75rem;
+    left: 0;
+    right: 0;
+    text-align: center;
+    padding: 0 2.5rem;
+}
+
+/* Стили для блока с олеофобным покрытием */
+.banner#bannerScreen .features {
+    bottom: 3.75rem;
+}
+
+/* Обновляем стили для центрирования */
+.combo-block, .edges-block, .price-block {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    margin: 1.25rem 0;
+    position: relative;
+}
+
+.device, .devices {
+    width: 100%;
+    text-align: center;
+    margin: 0.9375rem 0;
+    font-size: calc(175% * var(--font-multiplier));
+    color: #E047A0;
+}
+
+.banner {
+    width: 100%;
+    height: 100%;
+    position: absolute;
+    display: none;
+    padding: 2.5rem;
+    background: #000;
+    overflow: hidden;
+}
+
+.animate-price {
+    opacity: 0;
+}
+
+.animate-price.active {
+    opacity: 1;
+}
+
+.animate-price span {
+    display: inline-block;
+    opacity: 0;
+    animation: fadeInLetter 0.2s forwards;
+}
+
+@keyframes fadeInLetter {
+    from {
+        opacity: 0;
+        transform: translateY(10px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+} 

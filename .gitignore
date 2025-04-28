@@ -1,0 +1,42 @@
+# Dependencies
+node_modules/
+package-lock.json
+
+# Environment
+.env
+.env.local
+.env.*.local
+
+# IDE
+.vscode/
+.idea/
+*.sublime-project
+*.sublime-workspace
+
+# OS
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# Logs
+logs
+*.log
+npm-debug.log*
+
+# # Video files
+# *.mp4
+# *.avi
+# *.mov
+# *.wmv
+
+# # Image files
+# *.png
+# *.jpg
+# *.jpeg
+# *.gif
+# *.ico
+
+# Build
+dist/
+build/
+out/
