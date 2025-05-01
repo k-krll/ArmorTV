@@ -259,7 +259,34 @@ h2 {
 .features p {
     font-size: calc(125% * var(--font-multiplier));
     margin: 0.3125rem 0;
-    line-height: 1.1;
+    line-height: 1.2;
+}
+
+.features p:not([class]) {
+    color: #fff;
+}
+
+.features p[class="spacer"] {
+    margin: 1rem 0;
+}
+
+.features p:first-child {
+    color: #D743DD;
+    margin-bottom: 0.5rem;
+}
+
+#bannerPoly .features p:nth-child(6) {
+    color: #D743DD;
+    margin-top: 0.5rem;
+}
+
+#bannerTech .features p:nth-child(odd):not(.spacer) {
+    color: #D743DD;
+    margin-top: 0.5rem;
+}
+
+.features p:has(+ .spacer) {
+    margin-bottom: 0.5rem;
 }
 
 .footer {
@@ -389,12 +416,28 @@ h2 {
 }
 
 .service-item {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    text-align: center;
+    position: relative;
+    background: rgba(0, 0, 0, 0.2);
+    border-radius: 10px;
+    padding: 1.5rem;
+    transition: background 0.5s ease;
+}
+
+.service-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
     height: 100%;
+    background: rgba(0, 0, 0, 0.2);
+    border-radius: 10px;
+    opacity: 0.2;
+    transition: opacity 0.5s ease;
+}
+
+.service-content {
+    position: relative;
+    z-index: 1;
 }
 
 .service-item.merging {
@@ -496,14 +539,29 @@ h2 {
 }
 
 .package-item {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    gap: 1.875rem;
-    padding: 1.25rem;
+    position: relative;
     background: rgba(215, 67, 221, 0.1);
     border-radius: 0.9375rem;
-    min-height: 7.5rem;
+    overflow: hidden;
+}
+
+.package-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.2);
+    opacity: 0.2;
+    transition: opacity 0.5s ease;
+}
+
+.package-content {
+    position: relative;
+    z-index: 1;
+    display: flex;
+    align-items: center;
+    padding: 1.25rem;
 }
 
 .package-icon {
@@ -718,4 +776,221 @@ h2 {
         opacity: 1;
         transform: translateY(0);
     }
+}
+
+/* Material Comparison Styles */
+.material-comparison {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 100%;
+    height: 100%;
+    padding: 1rem;
+}
+
+.armor-choice, .hydrogel {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 1rem;
+}
+
+.material-divider {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin: 0 1rem;
+    height: 80%;
+}
+
+.material-divider .line {
+    flex: 1;
+    width: 2px;
+    background: linear-gradient(to bottom, transparent, #D743DD, transparent);
+}
+
+.material-divider .vs {
+    font-size: calc(150% * var(--font-multiplier));
+    color: #D743DD;
+    margin: 1rem 0;
+    font-weight: 900;
+    animation: scale 2s ease-in-out infinite;
+}
+
+.highlight {
+    font-size: calc(120% * var(--font-multiplier));
+    margin-bottom: 1rem;
+    color: #D743DD;
+    min-height: 3.6em;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    line-height: 1.4;
+}
+
+.highlight.warning {
+    color: #E04747;
+}
+
+.material-title {
+    font-size: calc(250% * var(--font-multiplier));
+    margin: 1rem 0 2rem;
+    font-weight: 900;
+    background: linear-gradient(45deg, #D743DD, #E047A0);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    animation: pulse 3s infinite;
+}
+
+.material-title.faded {
+    background: linear-gradient(45deg, #666, #999);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    opacity: 0.7;
+}
+
+.material-title.faded.static {
+    animation: none;
+}
+
+.advantages, .disadvantages {
+    display: flex;
+    flex-direction: column;
+    gap: 1.2rem;
+    margin-top: 1rem;
+}
+
+.advantage-item, .disadvantage-item {
+    display: flex;
+    align-items: center;
+    gap: 0.8rem;
+    font-size: calc(100% * var(--font-multiplier));
+    opacity: 0;
+}
+
+.check, .cross {
+    font-size: 120%;
+    font-weight: bold;
+}
+
+.check {
+    color: #47E0A0;
+}
+
+.cross {
+    color: #E04747;
+}
+
+.fade-in {
+    animation: fadeInUp 0.5s ease forwards;
+}
+
+.advantage-item:nth-child(1) { animation-delay: 0.5s; }
+.advantage-item:nth-child(2) { animation-delay: 1s; }
+.advantage-item:nth-child(3) { animation-delay: 1.5s; }
+
+.disadvantage-item:nth-child(1) { animation-delay: 0.7s; }
+.disadvantage-item:nth-child(2) { animation-delay: 1.2s; }
+.disadvantage-item:nth-child(3) { animation-delay: 1.7s; }
+
+@keyframes fadeInUp {
+    from {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+@keyframes pulse {
+    0% {
+        transform: scale(1);
+    }
+    50% {
+        transform: scale(1.05);
+        text-shadow: 0 0 20px rgba(215, 67, 221, 0.5);
+    }
+    100% {
+        transform: scale(1);
+    }
+}
+
+@keyframes scale {
+    0% {
+        transform: scale(1);
+    }
+    25% {
+        transform: scale(1.05);
+    }
+    75% {
+        transform: scale(0.95);
+    }
+    100% {
+        transform: scale(1);
+    }
+}
+
+.small-text {
+    font-size: 50%;
+    font-weight: normal;
+    color: #999;
+    margin-left: 0.5rem;
+}
+
+@keyframes highlightService {
+    0%, 100% { opacity: 0.2; }
+    50% { opacity: 0.8; }
+}
+
+.banner-option {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 1rem;
+    margin-bottom: 0.9375rem;
+}
+
+.banner-option label {
+    display: flex;
+    align-items: center;
+    gap: 0.625rem;
+    font-size: 100%;
+}
+
+.banner-timing {
+    display: flex;
+    align-items: center;
+    gap: 0.625rem;
+    white-space: nowrap;
+}
+
+.banner-timing input[type="number"] {
+    width: 4rem;
+}
+
+.banner-timing span {
+    color: #999;
+    font-size: 90%;
+}
+
+/* Price List Banner Font Size Adjustments */
+#banner3 {
+    font-size: 70%; /* Уменьшаем на 30% */
+}
+
+#banner3 .logo h1 {
+    font-size: calc(350% * var(--font-multiplier));
+}
+
+/* Polyurethane vs Hydrogel Banner Font Size Adjustments */
+#bannerPoly {
+    font-size: 67%; /* Уменьшаем на 33% */
+}
+
+#bannerPoly .material-title {
+    font-size: calc(250% * var(--font-multiplier));
 } 

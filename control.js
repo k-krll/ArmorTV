@@ -1,36 +1,87 @@
 document.addEventListener('DOMContentLoaded', function() {
     const startButton = document.getElementById('startDisplay');
-    const defaultTimeInput = document.getElementById('defaultTime');
+    const bannerCheckboxes = document.querySelectorAll('input[name="banners"]');
     const overlayOpacityInput = document.getElementById('overlayOpacity');
     const rotationAngleInput = document.getElementById('rotationAngle');
     const fontSizeMultiplierInput = document.getElementById('fontSizeMultiplier');
-    const bannerCheckboxes = document.querySelectorAll('input[name="banners"]');
+    const fullscreenModeInput = document.getElementById('fullscreenMode');
+    const bannerTimings = document.querySelectorAll('.banner-time');
 
-    startButton.addEventListener('click', function() {
-        // Get selected banners
+    // Загрузка сохраненных настроек
+    function loadSavedSettings() {
+        // Загрузка выбранных баннеров
+        const selectedBanners = JSON.parse(localStorage.getItem('selectedBanners')) || ['screen', 'back', 'poly', 'testdrive'];
+        bannerCheckboxes.forEach(checkbox => {
+            checkbox.checked = selectedBanners.includes(checkbox.value);
+        });
+
+        // Загрузка времени показа для каждого баннера
+        bannerTimings.forEach(input => {
+            const banner = input.dataset.banner;
+            const savedTime = localStorage.getItem(`${banner}Time`);
+            if (savedTime) {
+                input.value = savedTime;
+            }
+        });
+
+        // Загрузка остальных настроек
+        overlayOpacityInput.value = localStorage.getItem('overlayOpacity') || 50;
+        rotationAngleInput.value = localStorage.getItem('rotationAngle') || 270;
+        fontSizeMultiplierInput.value = localStorage.getItem('fontSizeMultiplier') || 125;
+        fullscreenModeInput.checked = localStorage.getItem('fullscreenMode') === 'true';
+    }
+
+    // Сохранение настроек
+    function saveSettings() {
+        // Проверка на выбранные баннеры
         const selectedBanners = Array.from(bannerCheckboxes)
-            .filter(cb => cb.checked)
-            .map(cb => cb.value);
-
+            .filter(checkbox => checkbox.checked)
+            .map(checkbox => checkbox.value);
+            
         if (selectedBanners.length === 0) {
             alert('Выберите хотя бы один баннер для показа');
-            return;
+            return false;
         }
 
-        // Get timing, opacity, rotation and font size settings
-        const defaultTime = parseInt(defaultTimeInput.value) || 5;
-        const overlayOpacity = parseInt(overlayOpacityInput.value) || 50;
-        const rotationAngle = parseInt(rotationAngleInput.value) || 90;
-        const fontSizeMultiplier = parseInt(fontSizeMultiplierInput.value) || 100;
-
-        // Store settings in localStorage
+        // Сохранение выбранных баннеров
         localStorage.setItem('selectedBanners', JSON.stringify(selectedBanners));
-        localStorage.setItem('defaultTime', defaultTime.toString());
-        localStorage.setItem('overlayOpacity', overlayOpacity.toString());
-        localStorage.setItem('rotationAngle', rotationAngle.toString());
-        localStorage.setItem('fontSizeMultiplier', fontSizeMultiplier.toString());
 
-        // Open display page in fullscreen
-        window.location.href = 'banners.html';
+        // Сохранение времени показа для каждого баннера
+        bannerTimings.forEach(input => {
+            const banner = input.dataset.banner;
+            localStorage.setItem(`${banner}Time`, input.value);
+        });
+
+        // Сохранение остальных настроек
+        localStorage.setItem('overlayOpacity', overlayOpacityInput.value);
+        localStorage.setItem('rotationAngle', rotationAngleInput.value);
+        localStorage.setItem('fontSizeMultiplier', fontSizeMultiplierInput.value);
+        localStorage.setItem('fullscreenMode', fullscreenModeInput.checked);
+
+        return true;
+    }
+
+    // Загрузка сохраненных настроек при инициализации
+    loadSavedSettings();
+
+    // Обработчики изменений
+    bannerCheckboxes.forEach(checkbox => {
+        checkbox.addEventListener('change', saveSettings);
+    });
+
+    bannerTimings.forEach(input => {
+        input.addEventListener('change', saveSettings);
+    });
+
+    overlayOpacityInput.addEventListener('change', saveSettings);
+    rotationAngleInput.addEventListener('change', saveSettings);
+    fontSizeMultiplierInput.addEventListener('change', saveSettings);
+    fullscreenModeInput.addEventListener('change', saveSettings);
+
+    // Запуск показа
+    startButton.addEventListener('click', function() {
+        if (saveSettings()) {
+            window.location.href = 'banners.html';
+        }
     });
 }); 

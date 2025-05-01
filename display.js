@@ -12,11 +12,13 @@ document.addEventListener('DOMContentLoaded', function() {
 
     // Map banner IDs to their indices
     const bannerMap = {
-        'combo': 0,
-        'screen': 1,
-        'borders': 2,
-        'back': 3,
-        'testdrive': 4
+        'combo': 'banner1',
+        'screen': 'bannerScreen',
+        'borders': 'banner2',
+        'back': 'bannerBack',
+        'poly': 'bannerPoly',
+        'tech': 'bannerTech',
+        'testdrive': 'banner3'
     };
 
     let activeBanners;
@@ -151,6 +153,34 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     }
 
+    // Анимация подсветки услуг
+    function animateServices() {
+        const services = document.querySelectorAll('.service-item .service-overlay');
+        const packages = document.querySelectorAll('.package-item .package-overlay');
+        let currentIndex = 0;
+
+        // Сначала анимируем базовые услуги
+        function highlightService() {
+            // Сбрасываем все подсветки
+            services.forEach(overlay => overlay.style.opacity = '0.2');
+            
+            if (currentIndex < services.length) {
+                // Подсвечиваем текущую услугу
+                services[currentIndex].style.opacity = '0.8';
+                currentIndex++;
+                setTimeout(highlightService, 4000); // 4 секунды на каждую услугу
+            } else {
+                // После базовых услуг анимируем комплексные решения
+                packages.forEach(overlay => {
+                    overlay.style.opacity = '0.8';
+                });
+            }
+        }
+
+        // Запускаем анимацию
+        highlightService();
+    }
+
     // Handle banner change
     function handleBannerChange(currentBanner, nextBanner) {
         if (currentBanner) {
@@ -228,8 +258,7 @@ document.addEventListener('DOMContentLoaded', function() {
     function startBannerDisplay() {
         let currentBanner = 0;
         const currentRotation = parseInt(localStorage.getItem('rotationAngle')) || 90;
-        const defaultTime = parseInt(localStorage.getItem('defaultTime')) * 1000 || 25000;
-        const selectedBanners = JSON.parse(localStorage.getItem('selectedBanners')) || ['combo', 'borders', 'testdrive'];
+        const selectedBanners = JSON.parse(localStorage.getItem('selectedBanners')) || ['screen', 'back', 'poly', 'testdrive'];
         const fontSizeMultiplier = (parseInt(localStorage.getItem('fontSizeMultiplier')) || 125) / 100;
         
         // Apply font size multiplier
@@ -243,8 +272,10 @@ document.addEventListener('DOMContentLoaded', function() {
         });
 
         // Hide unselected banners
-        Array.from(banners).forEach((banner, index) => {
-            if (!selectedBanners.includes(Object.keys(bannerMap)[index])) {
+        Array.from(banners).forEach((banner) => {
+            const bannerId = banner.id;
+            const isSelected = selectedBanners.some(key => bannerMap[key] === bannerId);
+            if (!isSelected) {
                 banner.remove();
             }
         });
@@ -258,6 +289,30 @@ document.addEventListener('DOMContentLoaded', function() {
         // Show first banner and start animations
         if (activeBanners.length > 0) {
             handleBannerChange(null, activeBanners[0]);
+            // Запускаем анимацию услуг только когда показывается прайс-лист
+            const observer = new MutationObserver((mutations) => {
+                mutations.forEach((mutation) => {
+                    if (mutation.target.id === 'banner3' && mutation.target.style.opacity === '1') {
+                        animateServices();
+                    }
+                });
+            });
+
+            const priceList = document.getElementById('banner3');
+            if (priceList) {
+                observer.observe(priceList, { attributes: true, attributeFilter: ['style'] });
+            }
+        }
+
+        // Функция для получения времени показа баннера
+        function getBannerTime(banner) {
+            // Получаем ключ баннера из bannerMap
+            const bannerKey = Object.keys(bannerMap).find(key => bannerMap[key] === banner.id);
+            if (!bannerKey) return 25000; // Значение по умолчанию, если ключ не найден
+
+            // Получаем сохраненное время для этого баннера
+            const savedTime = localStorage.getItem(`${bannerKey}Time`);
+            return savedTime ? parseInt(savedTime) * 1000 : 25000;
         }
 
         // Rotate banners
@@ -268,18 +323,15 @@ document.addEventListener('DOMContentLoaded', function() {
             
             handleBannerChange(currentBannerElement, nextBannerElement);
 
-            // Calculate next timeout
-            let timeout = defaultTime;
-            if (Array.from(banners).indexOf(nextBannerElement) === bannerMap['borders']) {
-                timeout = videoDuration + 5000;
-            }
-
-            setTimeout(rotateBanners, timeout);
+            // Get timing for next banner
+            const nextTimeout = getBannerTime(nextBannerElement);
+            setTimeout(rotateBanners, nextTimeout);
         }
 
-        // Start rotation after initial display time
+        // Start rotation after initial banner time
         if (activeBanners.length > 1) {
-            setTimeout(rotateBanners, defaultTime);
+            const initialTimeout = getBannerTime(activeBanners[0]);
+            setTimeout(rotateBanners, initialTimeout);
         }
 
         // Request fullscreen if enabled
@@ -328,7 +380,16 @@ document.addEventListener('DOMContentLoaded', function() {
     });
 
     exitFullscreenBtn.addEventListener('click', () => {
-        window.location.href = 'index.html';
+        if (document.fullscreenElement) {
+            document.exitFullscreen().then(() => {
+                window.location.href = 'index.html';
+            }).catch(err => {
+                console.log(`Error exiting fullscreen: ${err.message}`);
+                window.location.href = 'index.html';
+            });
+        } else {
+            window.location.href = 'index.html';
+        }
     });
 
     // Prevent screen sleep
