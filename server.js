@@ -1,11 +1,20 @@
 const express = require('express');
+const serveStatic = require('serve-static');
 const path = require('path');
 const os = require('os');
+
 const app = express();
-const port = 3000;
+const port = process.env.PORT || 3000;
 
 // Serve static files from the current directory
-app.use(express.static(__dirname));
+app.use(serveStatic(path.join(__dirname), {
+    setHeaders: (res, path) => {
+        // Set proper content type for video files
+        if (path.endsWith('.mp4')) {
+            res.setHeader('Content-Type', 'video/mp4');
+        }
+    }
+}));
 
 // Serve index.html as the root route
 app.get('/', (req, res) => {
@@ -31,18 +40,14 @@ function getIPAddresses() {
 }
 
 // Start the server
-app.listen(port, '0.0.0.0', () => {
-    console.log('\nСервер запущен:');
-    console.log('--------------------');
+app.listen(port, () => {
+    console.log(`ARMOR TV server is running at http://localhost:${port}`);
+    console.log('Press Ctrl+C to stop the server');
     
     const addresses = getIPAddresses();
     addresses.forEach(ip => {
         console.log(`http://${ip}:${port}`);
     });
-    
-    console.log('\nЛокальный доступ:');
-    console.log(`http://localhost:${port}`);
-    console.log(`http://127.0.0.1:${port}`);
     
     console.log('\nНажмите Ctrl+C для остановки сервера');
 }); 
