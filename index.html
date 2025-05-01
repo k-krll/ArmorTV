@@ -3,71 +3,89 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>ARMOR Control Panel</title>
+    <title>ARMOR Banners Control</title>
     <link rel="stylesheet" href="styles.css">
     <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700;900&display=swap" rel="stylesheet">
-    <style>
-        :root {
-            --font-multiplier: 1.25; /* 125% по умолчанию */
-        }
-    </style>
 </head>
 <body class="control-mode">
     <div class="control-panel">
-        <h1>ARMOR Control Panel</h1>
+        <h1>Управление баннерами ARMOR</h1>
         
         <div class="banner-selection">
-            <h2>Выберите баннеры для показа</h2>
+            <h2>Выберите баннеры для показа:</h2>
             <div class="banner-options">
                 <div class="banner-option">
                     <label>
-                        <input type="checkbox" data-banner="screen" checked>
+                        <input type="checkbox" name="banners" value="screen" checked>
                         Защита экрана
                     </label>
                     <div class="banner-timing">
-                        <input type="number" data-timing="screen" value="12" min="1">
-                        <span>сек</span>
+                        <span>Время показа (сек):</span>
+                        <input type="number" class="banner-time" data-banner="screen" value="14" min="1" max="60">
                     </div>
                 </div>
-                
+
                 <div class="banner-option">
                     <label>
-                        <input type="checkbox" data-banner="back" checked>
+                        <input type="checkbox" name="banners" value="back" checked>
                         Защита задней крышки
                     </label>
                     <div class="banner-timing">
-                        <input type="number" data-timing="back" value="12" min="1">
-                        <span>сек</span>
+                        <span>Время показа (сек):</span>
+                        <input type="number" class="banner-time" data-banner="back" value="14" min="1" max="60">
                     </div>
                 </div>
-                
+
                 <div class="banner-option">
                     <label>
-                        <input type="checkbox" data-banner="poly" checked>
+                        <input type="checkbox" name="banners" value="poly" checked>
                         Полиуретан vs Гидрогель
                     </label>
                     <div class="banner-timing">
-                        <input type="number" data-timing="poly" value="12" min="1">
-                        <span>сек</span>
+                        <span>Время показа (сек):</span>
+                        <input type="number" class="banner-time" data-banner="poly" value="7" min="1" max="60">
                     </div>
                 </div>
-                
+
                 <div class="banner-option">
                     <label>
-                        <input type="checkbox" data-banner="price" checked>
-                        Прайс лист
+                        <input type="checkbox" name="banners" value="testdrive" checked>
+                        Прайс-лист
                     </label>
                     <div class="banner-timing">
-                        <input type="number" data-timing="price" value="62" min="1">
-                        <span>сек</span>
+                        <span>Время показа (сек):</span>
+                        <input type="number" class="banner-time" data-banner="testdrive" value="25" min="1" max="60">
                     </div>
                 </div>
             </div>
         </div>
-        
-        <button id="startButton" class="primary-btn">Запустить показ</button>
+
+        <div class="timing-settings">
+            <h2>Настройки отображения:</h2>
+            <div class="timing-options">
+                <label>
+                    <span>Затемнение фона видео (%):</span>
+                    <input type="number" id="overlayOpacity" value="50" min="0" max="100">
+                </label>
+                <label>
+                    <span>Поворот баннера (градусы):</span>
+                    <input type="number" id="rotationAngle" value="270" min="0" max="270" step="90">
+                </label>
+                <label>
+                    <span>Множитель размера шрифта (%):</span>
+                    <input type="number" id="fontSizeMultiplier" value="125" min="50" max="200" step="10">
+                </label>
+                <label>
+                    <span>Полноэкранный режим:</span>
+                    <input type="checkbox" id="fullscreenMode" checked>
+                </label>
+            </div>
+        </div>
+
+        <div class="control-buttons">
+            <button id="startDisplay" class="primary-btn">Запустить показ</button>
+        </div>
     </div>
     <script src="control.js"></script>
 </body>
-</html> 
 </html> 
