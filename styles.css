@@ -1001,9 +1001,9 @@ h2 {
 
 /* Polyurethane vs Hydrogel Banner Font Size Adjustments */
 #bannerPoly {
-    font-size: 90%; /* Уменьшаем на 33% */
+    font-size: 67%; /* Уменьшаем на 33% */
 }
 
 #bannerPoly .material-title {
-    font-size: calc(300% * var(--font-multiplier));
+    font-size: calc(250% * var(--font-multiplier));
 } 

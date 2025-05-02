@@ -11,6 +11,46 @@
     <div class="control-panel">
         <h1>Управление баннерами ARMOR</h1>
         
+        <div class="price-settings">
+            <h2>Настройки цен:</h2>
+            <div class="price-presets">
+                <label>
+                    <span>Пресеты цен:</span>
+                    <select id="pricePreset">
+                        <option value="custom">Свои цены</option>
+                        <option value="nn">Нижний Новгород</option>
+                        <option value="msk">Москва</option>
+                    </select>
+                </label>
+            </div>
+            <div class="price-options">
+                <label>
+                    <span>Защита экрана:</span>
+                    <input type="number" id="screenPrice" value="1800" min="0" max="10000">
+                </label>
+                <label>
+                    <span>Защита корпуса:</span>
+                    <input type="number" id="backPrice" value="2500" min="0" max="10000">
+                </label>
+                <label>
+                    <span>Защита 360°:</span>
+                    <input type="number" id="armor360Price" value="3500" min="0" max="10000">
+                </label>
+                <label>
+                    <span>Защита ULTIMATE:</span>
+                    <input type="number" id="ultimatePrice" value="4500" min="0" max="10000">
+                </label>
+                <label>
+                    <span>Чистка динамиков:</span>
+                    <input type="number" id="cleaningPrice" value="0" min="0" max="10000">
+                </label>
+                <label class="checkbox-label">
+                    <span>Скрыть ULTIMATE:</span>
+                    <input type="checkbox" id="hideUltimate">
+                </label>
+            </div>
+        </div>
+
         <div class="banner-selection">
             <h2>Выберите баннеры для показа:</h2>
             <div class="banner-options">

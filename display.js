@@ -261,6 +261,61 @@ document.addEventListener('DOMContentLoaded', function() {
         const selectedBanners = JSON.parse(localStorage.getItem('selectedBanners')) || ['screen', 'back', 'poly', 'testdrive'];
         const fontSizeMultiplier = (parseInt(localStorage.getItem('fontSizeMultiplier')) || 80) / 100;
         
+        // Apply prices and visibility settings
+        function applyPrices() {
+            const screenPrice = localStorage.getItem('screenPrice') || 1800;
+            const backPrice = localStorage.getItem('backPrice') || 2500;
+            const armor360Price = localStorage.getItem('armor360Price') || 3500;
+            const ultimatePrice = localStorage.getItem('ultimatePrice') || 4500;
+            const cleaningPrice = localStorage.getItem('cleaningPrice') || 0;
+            const hideUltimate = localStorage.getItem('hideUltimate') === 'true';
+
+            // Update prices in banners
+            document.querySelectorAll('.banner .price').forEach(priceElement => {
+                if (priceElement.closest('#bannerScreen')) {
+                    priceElement.textContent = `${screenPrice}₽`;
+                } else if (priceElement.closest('#bannerBack')) {
+                    priceElement.textContent = `${backPrice}₽`;
+                }
+            });
+
+            // Update prices in price list
+            const serviceItems = document.querySelectorAll('.service-item');
+            serviceItems.forEach(item => {
+                const priceElement = item.querySelector('.service-price');
+                const titleElement = item.querySelector('h3');
+                
+                if (titleElement.textContent.includes('экрана')) {
+                    priceElement.textContent = `${screenPrice} ₽`;
+                } else if (titleElement.textContent.includes('корпуса')) {
+                    priceElement.textContent = `${backPrice} ₽`;
+                } else if (titleElement.textContent.includes('динамиков')) {
+                    priceElement.textContent = cleaningPrice === '0' ? '0 ₽*' : `${cleaningPrice} ₽`;
+                }
+            });
+
+            // Update package prices
+            const packages = document.querySelectorAll('.package-item');
+            packages.forEach(pkg => {
+                const titleElement = pkg.querySelector('h3');
+                const priceElement = pkg.querySelector('.price');
+                
+                if (titleElement.textContent.includes('360°')) {
+                    priceElement.textContent = `${armor360Price} ₽`;
+                } else if (titleElement.textContent.includes('ULTIMATE')) {
+                    priceElement.textContent = `${ultimatePrice} ₽`;
+                    // Handle ULTIMATE visibility
+                    pkg.style.display = hideUltimate ? 'none' : '';
+                }
+            });
+
+            // Handle cleaning price note
+            const cleaningNote = document.querySelector('h3[style*="color: #aeaeae"]');
+            if (cleaningNote) {
+                cleaningNote.style.display = cleaningPrice === '0' ? '' : 'none';
+            }
+        }
+
         // Apply font size multiplier
         document.documentElement.style.setProperty('--font-multiplier', fontSizeMultiplier);
         
@@ -270,6 +325,9 @@ document.addEventListener('DOMContentLoaded', function() {
         videoOverlays.forEach(overlay => {
             overlay.style.background = `rgba(0, 0, 0, ${overlayOpacity / 100})`;
         });
+
+        // Apply prices initially
+        applyPrices();
 
         // Hide unselected banners
         Array.from(banners).forEach((banner) => {
