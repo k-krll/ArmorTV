@@ -43,4 +43,60 @@
 
 - Настройка баннеров и параметров отображения через панель управления
 - Выход из полноэкранного режима: кнопка ✕ или клавиша Escape
-- Поворот экрана: кнопки ↺ и ↻ 
+- Поворот экрана: кнопки ↺ и ↻
+
+## Docker Installation
+
+### Quick Start
+```bash
+# Запуск с портом по умолчанию (3000)
+docker run -d -p 3000:3000 --restart unless-stopped --name armortv krll/armortv
+
+# Запуск с указанием порта
+docker run -d -p 80:80 -e PORT=80 --restart unless-stopped --name armortv krll/armortv
+```
+
+### Using Docker Compose
+```bash
+# Запуск с портом по умолчанию
+docker-compose up -d
+
+# Запуск с указанием порта
+PORT=8080 docker-compose up -d
+```
+
+### Building from Source
+```bash
+# Клонирование репозитория
+git clone https://github.com/your-username/armortv.git
+cd armortv
+
+# Сборка Docker образа
+docker build -t your-dockerhub-username/armortv .
+
+# Запуск контейнера
+docker run -d -p 3000:3000 --name armortv your-dockerhub-username/armortv
+```
+
+### Publishing to Docker Hub
+```bash
+# Логин в Docker Hub
+docker login
+
+# Сборка образа
+docker build -t your-dockerhub-username/armortv .
+
+# Публикация образа
+docker push your-dockerhub-username/armortv
+```
+
+## Доступ к приложению
+После запуска приложение будет доступно по адресу:
+- `http://localhost:3000` (при использовании порта по умолчанию)
+- `http://localhost:PORT` (при указании другого порта)
+
+## Переменные окружения
+- `PORT` - порт для HTTP сервера (по умолчанию: 3000)
+
+## Volumes
+- `/app/backups_videos` - директория для хранения резервных копий видео 

@@ -1,0 +1,12 @@
+version: '3.8'
+
+services:
+  armortv:
+    build: .
+    ports:
+      - "${PORT:-3000}:${PORT:-3000}"
+    environment:
+      - PORT=${PORT:-3000}
+    volumes:
+      - ./backups_videos:/app/backups_videos
+    restart: unless-stopped 
