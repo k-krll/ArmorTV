@@ -259,7 +259,7 @@ document.addEventListener('DOMContentLoaded', function() {
         let currentBanner = 0;
         const currentRotation = parseInt(localStorage.getItem('rotationAngle')) || 90;
         const selectedBanners = JSON.parse(localStorage.getItem('selectedBanners')) || ['screen', 'back', 'poly', 'testdrive'];
-        const fontSizeMultiplier = (parseInt(localStorage.getItem('fontSizeMultiplier')) || 125) / 100;
+        const fontSizeMultiplier = (parseInt(localStorage.getItem('fontSizeMultiplier')) || 80) / 100;
         
         // Apply font size multiplier
         document.documentElement.style.setProperty('--font-multiplier', fontSizeMultiplier);

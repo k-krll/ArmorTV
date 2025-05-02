@@ -27,7 +27,7 @@ document.addEventListener('DOMContentLoaded', function() {
         // Загрузка остальных настроек
         overlayOpacityInput.value = localStorage.getItem('overlayOpacity') || 50;
         rotationAngleInput.value = localStorage.getItem('rotationAngle') || 270;
-        fontSizeMultiplierInput.value = localStorage.getItem('fontSizeMultiplier') || 125;
+        fontSizeMultiplierInput.value = localStorage.getItem('fontSizeMultiplier') || 80;
         fullscreenModeInput.checked = localStorage.getItem('fullscreenMode') === 'true';
     }
 
