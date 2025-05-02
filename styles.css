@@ -108,6 +108,14 @@ input[type="number"] {
     display: none;
 }
 
+.display-mode {
+    cursor: none;
+}
+
+.display-mode * {
+    cursor: none;
+}
+
 .banner-container {
     width: 100vh;
     height: 100vw;
@@ -1007,3 +1015,15 @@ h2 {
 #bannerPoly .material-title {
     font-size: calc(250% * var(--font-multiplier));
 } 
+
+.price-options {
+    display: flex;
+    flex-direction: column;
+    gap: 0.625rem;
+    margin: 1.5vmin;
+}
+
+.price-options input {
+    width: 20vmin;
+    margin: 0.5vmin;
+}

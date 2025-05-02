@@ -10,6 +10,9 @@ document.addEventListener('DOMContentLoaded', function() {
     const videoOverlay = document.querySelector('.video-overlay');
     const serviceGrid = document.getElementById('serviceGrid');
 
+    // Hide cursor in display mode
+    document.body.classList.contains('display-mode') && (document.body.style.cursor = 'none');
+
     // Map banner IDs to their indices
     const bannerMap = {
         'combo': 'banner1',
@@ -267,7 +270,7 @@ document.addEventListener('DOMContentLoaded', function() {
             const backPrice = localStorage.getItem('backPrice') || 2500;
             const armor360Price = localStorage.getItem('armor360Price') || 3500;
             const ultimatePrice = localStorage.getItem('ultimatePrice') || 4500;
-            const cleaningPrice = localStorage.getItem('cleaningPrice') || 0;
+            const cleaningPrice = parseInt(localStorage.getItem('cleaningPrice')) || 0;
             const hideUltimate = localStorage.getItem('hideUltimate') === 'true';
 
             // Update prices in banners
@@ -279,20 +282,43 @@ document.addEventListener('DOMContentLoaded', function() {
                 }
             });
 
-            // Update prices in price list
-            const serviceItems = document.querySelectorAll('.service-item');
-            serviceItems.forEach(item => {
-                const priceElement = item.querySelector('.service-price');
-                const titleElement = item.querySelector('h3');
-                
-                if (titleElement.textContent.includes('экрана')) {
-                    priceElement.textContent = `${screenPrice} ₽`;
-                } else if (titleElement.textContent.includes('корпуса')) {
-                    priceElement.textContent = `${backPrice} ₽`;
-                } else if (titleElement.textContent.includes('динамиков')) {
-                    priceElement.textContent = cleaningPrice === '0' ? '0 ₽*' : `${cleaningPrice} ₽`;
+            // Get the service grid and reorder services
+            const serviceGrid = document.getElementById('serviceGrid');
+            if (serviceGrid) {
+                const services = Array.from(serviceGrid.children);
+                const cleaningService = services.find(service => 
+                    service.querySelector('h3').textContent.includes('динамиков'));
+                const screenService = services.find(service => 
+                    service.querySelector('h3').textContent.includes('экрана'));
+                const backService = services.find(service => 
+                    service.querySelector('h3').textContent.includes('корпуса'));
+
+                // Update prices
+                if (screenService) {
+                    screenService.querySelector('.service-price').textContent = `${screenPrice} ₽`;
                 }
-            });
+                if (backService) {
+                    backService.querySelector('.service-price').textContent = `${backPrice} ₽`;
+                }
+                if (cleaningService) {
+                    cleaningService.querySelector('.service-price').textContent = 
+                        cleaningPrice === 0 ? '0 ₽*' : `${cleaningPrice} ₽`;
+                }
+
+                // Clear grid
+                serviceGrid.innerHTML = '';
+
+                // Reorder based on cleaning price
+                if (cleaningPrice > 0) {
+                    if (cleaningService) serviceGrid.appendChild(cleaningService);
+                    if (screenService) serviceGrid.appendChild(screenService);
+                    if (backService) serviceGrid.appendChild(backService);
+                } else {
+                    if (screenService) serviceGrid.appendChild(screenService);
+                    if (backService) serviceGrid.appendChild(backService);
+                    if (cleaningService) serviceGrid.appendChild(cleaningService);
+                }
+            }
 
             // Update package prices
             const packages = document.querySelectorAll('.package-item');
@@ -304,7 +330,6 @@ document.addEventListener('DOMContentLoaded', function() {
                     priceElement.textContent = `${armor360Price} ₽`;
                 } else if (titleElement.textContent.includes('ULTIMATE')) {
                     priceElement.textContent = `${ultimatePrice} ₽`;
-                    // Handle ULTIMATE visibility
                     pkg.style.display = hideUltimate ? 'none' : '';
                 }
             });
@@ -312,7 +337,7 @@ document.addEventListener('DOMContentLoaded', function() {
             // Handle cleaning price note
             const cleaningNote = document.querySelector('h3[style*="color: #aeaeae"]');
             if (cleaningNote) {
-                cleaningNote.style.display = cleaningPrice === '0' ? '' : 'none';
+                cleaningNote.style.display = cleaningPrice === 0 ? '' : 'none';
             }
         }
 
